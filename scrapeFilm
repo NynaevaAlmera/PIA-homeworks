@@ -1,0 +1,62 @@
+import sqlite3
+import urllib.request
+from bs4 import BeautifulSoup
+
+def scrapePage(pageAddress):
+	base = "https://www.animefreak.tv/watch/"
+	req = urllib.request.Request(pageAddress, headers={'User-Agent': 'Mozilla/5.0'})
+	page = urllib.request.urlopen(req)
+	soup = BeautifulSoup(page, 'html.parser')
+
+	animeInfo = dict()
+
+	animeInfo["title"] = soup.find(class_='anime-title').string
+	animeInfo["linktitle"] = pageAddress[32:]
+	animeInfo["description"] = soup.find(class_='anime-details').string
+	animeInfo["pic"] = soup.find(class_='animeDetail-image').find('img')['src']
+
+	return animeInfo
+
+def main():
+	base = "https://www.animefreak.tv/watch/"
+
+	conn = sqlite3.connect("databases/anime.db")
+	c = conn.cursor()
+	c.execute('''DROP TABLE if exists anime''')
+	c.execute('''CREATE TABLE anime (
+		title text, 
+		linktitle text, 
+		description text)
+		''')
+
+	listAddress = 'https://www.animefreak.tv/home/anime-list'
+	req = urllib.request.Request(listAddress, headers={'User-Agent': 'Mozilla/5.0'})
+	page = urllib.request.urlopen(req)
+	soup = BeautifulSoup(page, "html.parser")
+
+	containerLeft = soup.find(class_='container-left')
+	containerItems = containerLeft.find_all(class_='container-item')
+
+	for item in containerItems:
+		links = item.find_all("a")
+		for link in links:
+			linkAddress = link['href']
+			animeInfo = scrapePage(linkAddress)
+
+			c.execute("INSERT INTO anime VALUES (?, ?, ?)", 
+				(animeInfo['title'],
+				animeInfo['linktitle'],
+				animeInfo['description']))
+
+
+			with open('pics/{}.jpg'.format(animeInfo["linktitle"]), 'wb') as f:
+				req = urllib.request.Request(animeInfo['pic'], headers={'User-Agent': 'Mozilla/5.0'})
+				page = urllib.request.urlopen(req)
+				f.write(page.read())
+		
+	conn.commit()
+
+	conn.close()
+	
+if __name__ == '__main__':
+	main()
