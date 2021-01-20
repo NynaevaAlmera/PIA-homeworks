@@ -8,8 +8,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+    function deleteFilm(filmid) {
+        var del = confirm("Delete this film?");
+        if(del === true){
+            var request = new XMLHttpRequest();
+            request.open("GET", "deleteFilm.php?filmid="+filmid, true);
+            request.send();   
+            window.location.replace("filmlist.php");    
+        }
+    }
+    </script>
 </head>
 <body>
+<?php //include 'loggedincheck.php';?>
 <?php include 'topbar.php';?>
 <div class="container-fluid" style="position:absolute; margin-top:0; padding:0;">  
     <div class="row content" style="width:100vw;">
@@ -34,6 +47,7 @@
             ?></h3>
             <h4 style="display: inline-block;"><?php echo("&nbsp(" . $titles_array["godina_izdanja"] . ")");?></h4>
             <h5><?php echo($titles_array["trajanje"] . " | " . $titles_array["zanr"] . " | rated such and such by this many users");?></h5>
+            <button type="button" onclick="deleteFilm(<?php echo($_GET['filmid']);?>)">Delete Film</button>
             
             <hr>
             <div class="row content">

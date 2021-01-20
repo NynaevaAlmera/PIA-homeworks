@@ -100,16 +100,24 @@
                     }
                     else{
                         $insert_string = "INSERT INTO korisnici VALUES('"
-                        . $firstName . "','" .  $lastName . "','" .  $email . "','" .  hash('sha256', $pass) . "','" .  $username . "'," .  'false)';
-                        $fetch_query = $conn->exec($fetch_string);
-                        var_dump($fetch_query);
-                        var_dump($insert_string);
-                        $fetch_string = "SELECT * FROM korisnici";
-                        $fetch_query = $conn->query($fetch_string);
-                        while($result_array = $fetch_query->fetchArray()){
-                            var_dump($result_array);
-                        }
-                        //header("Location: filmlist.php");
+                        . $firstName . "','" .  $lastName . "','" .  $email . "','" .  hash('sha256', $pass) . "','" .  $username . "'," .  '0)';
+                        $fetch_query = $conn->exec($insert_string);
+
+                        unset($_POST["firstname"]);
+                        unset($_POST["lastname"]);
+                        unset($_POST["username"]);
+                        unset($_POST["pass"]);
+                        unset($_POST["email"]);
+
+                        $POST["userdict"] = array(
+                            "firstname" => $firstName,
+                            "lastname" => $lastName,
+                            "username" => $username,
+                            "email" => $email,
+                            "admin" => 0
+                        );
+
+                        header("Location: filmlist.php");
                     }
                 }
                 
@@ -164,3 +172,4 @@
 
 
 </body>
+</html>

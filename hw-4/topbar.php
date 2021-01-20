@@ -14,10 +14,7 @@
                         <span class="glyphicon glyphicon-align-justify">  <span style="font-family: Arial, Helvetica, sans-serif;">Administrator</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="animelist.php">Anime List</a class="dropdown-item"></li>
-                        <li class="divider"></li>
-                        <li><a class="dropdown-item" href="search.php">Search</a class="dropdown-item"></li>
-                        <li class="divider"></li>
+                        <li><a class="dropdown-item" href="adminCreate.php">Create film</a class="dropdown-item"></li>
                     </ul>
                 </li>
                 <li class="nav-item">

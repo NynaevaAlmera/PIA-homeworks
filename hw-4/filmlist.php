@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<?php //include 'loggedincheck.php';?>
 <?php include 'topbar.php';?>
 <div class="container-fluid" style="position:absolute; margin-top:0; padding:0;">  
     <div class="row content" style="width:100vw;">
@@ -18,8 +19,21 @@
         <h3>Films:</h3>
         <hr>
         <?php
-echo hash('sha256', 'gzxCSajZ1');
-?>
+        try {
+            $conn = new SQLITE3('databases/film.db');
+            $select_string = "SELECT *, rowid FROM film";
+            $fetch_query = $conn->query($select_string);
+
+            while($res = $fetch_query->fetchArray(SQLITE3_ASSOC)){
+                echo("<div class='row content' style='height=50px;'>");
+            }
+            
+        }
+        catch(PDOException $e) {
+            $insert_error = "Error inserting film";
+            echo $e->getMessage();
+        }
+        ?>
         </div>
         <div class="col-sm-3"></div>
     </div>
