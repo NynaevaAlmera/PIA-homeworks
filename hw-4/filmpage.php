@@ -23,6 +23,7 @@
 </head>
 <body>
 <?php //include 'loggedincheck.php';?>
+<?php session_start();?>
 <?php include 'topbar.php';?>
 <div class="container-fluid" style="position:absolute; margin-top:0; padding:0;">  
     <div class="row content" style="width:100vw;">

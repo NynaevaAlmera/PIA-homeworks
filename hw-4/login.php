@@ -12,6 +12,7 @@
 </head>
 <body>
 <?php 
+    session_start();
     $userMailError = $passError = $totalError = "";
     $username = $pass = $firstName = $lastName = $email = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -46,9 +47,9 @@
                 if($userMailError == ""){
                     $hashed_pass = $result_array["password"];
                     if($hashed_pass == hash("sha256", $pass)){
-                        $POST["userdict"] = array(
-                            "firstname" => $result_array["firstname"],
-                            "lastname" => $result_array["lastname"],
+                        $_SESSION["userdict"] = array(
+                            "firstname" => $result_array["first_name"],
+                            "lastname" => $result_array["last_name"],
                             "username" => $result_array["username"],
                             "email" => $result_array["email"],
                             "admin" => $result_array["admin_status"]
@@ -56,6 +57,8 @@
 
                         unset($_POST["usernameOrEmail"]);
                         unset($_POST["pass"]);
+
+                        //var_dump($_SESSION["userdict"]);
 
                         header("Location: filmlist.php");
                     }

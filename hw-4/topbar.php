@@ -1,6 +1,5 @@
 <div class="container-fullwidth">
     <nav class="navbar navbar-inverse">
-        <a href="https://www.animefreak.tv/" class="logo"></a>
         <div class="container-fluid">
 
             <ul class="nav navbar-nav">
@@ -11,7 +10,7 @@
             </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-align-justify">  <span style="font-family: Arial, Helvetica, sans-serif;">Administrator</span>
+                        <span class="glyphicon glyphicon-align-justify"></span>  <span style="font-family: Arial, Helvetica, sans-serif;">Administrator</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="adminCreate.php">Create film</a class="dropdown-item"></li>
@@ -32,12 +31,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php
-                if(empty($_SESSION["userid"])) {
-                    echo('<li><a href="management/login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li><li><a href="management/register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>');
-                    }
-                else{
-                    echo('<li><a href="management/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>');
-                }
+                session_start();
+                echo('<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout User: ' . $_SESSION['userdict']['username'] . '</a></li>');
+                    
                 ?>
             </ul>
         </div>

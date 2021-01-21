@@ -12,10 +12,13 @@
 </head>
 <body>
 <?php 
+    session_start();
     /*include 'loggedincheck.php';
+    
     if($_POST["userdict"]["admin"] == 0){
         header("Location: login.php");
     }*/
+    
     $titleError = $descError = $genreError = $writerError = $dirError = $prodError = $yearError = $lenError = $thumbError = $totalError = $insert_error = "";
     $title = $desc = $genre = $writer = $dir = $prod = $year = $len = $thumb = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

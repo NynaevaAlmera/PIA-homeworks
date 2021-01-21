@@ -12,6 +12,7 @@
 </head>
 <body>
 <?php 
+    session_start();
     /*include 'loggedincheck.php';
     if($_POST["userdict"]["admin"] == 0){
         header("Location: login.php");

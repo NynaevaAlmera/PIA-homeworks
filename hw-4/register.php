@@ -12,6 +12,7 @@
 </head>
 <body>
     <?php 
+    session_start();
     $usernameError = $passError = $firstNameError = $lastNameError = $emailError = $totalError = "";
     $username = $pass = $firstName = $lastName = $email = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
