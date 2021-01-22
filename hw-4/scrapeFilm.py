@@ -37,12 +37,14 @@ def main():
 			producentska_kuca text,
 			godina_izdanja int,
 			trajanje text,
-			thumbnail text
+			thumbnail text,
+			filmid integer PRIMARY KEY
 			)
 			''')
 
 
-		c.execute("INSERT INTO film VALUES (?,?,?,?,?,?,?,?,?)", 
+		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+			VALUES (?,?,?,?,?,?,?,?,?)", 
 			('The Dark Knight',
 			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
 			'action',
@@ -53,13 +55,47 @@ def main():
 			'2h 32m',
 			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
 
+		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+			VALUES (?,?,?,?,?,?,?,?,?)", 
+			('The Dark Knight',
+			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
+			'action',
+			'j nolan',
+			'c nolan',
+			'wbros',
+			'2008',
+			'2h 32m',
+			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
 
+		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+			VALUES (?,?,?,?,?,?,?,?,?)", 
+			('The Dark Knight',
+			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
+			'action',
+			'j nolan',
+			'c nolan',
+			'wbros',
+			'2008',
+			'2h 32m',
+			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
+
+		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+			VALUES (?,?,?,?,?,?,?,?,?)", 
+			('The Dark Knight',
+			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
+			'action',
+			'j nolan',
+			'c nolan',
+			'wbros',
+			'2008',
+			'2h 32m',
+			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
 
 		conn.commit()
 
 		conn.close()
-	except:
-		pass
+	except Exception as e:
+		print(e)
 
 def main2():
 	links=['https://www.imdb.com/title/tt0050083/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_5',\
@@ -109,6 +145,85 @@ def main3():
 
 		conn.close()
 
+def mainId():
+	try:
+		conn = sqlite3.connect("databases/film.db")
+		c = conn.cursor()
+		c.execute("PRAGMA foreign_keys = ON;")
+		c.execute('''DROP TABLE if exists glumci''')
+		c.execute('''CREATE TABLE glumci (
+			film_id INTEGER,
+			actor TEXT,
+		    FOREIGN KEY (film_id) 
+		    REFERENCES film (filmid) 
+		    ON DELETE CASCADE
+			)
+			''')
+
+
+		c.execute("INSERT INTO glumci VALUES (?,?)", 
+			(1,
+			'Christian Bale'))
+
+		c.execute("INSERT INTO glumci VALUES (?,?)", 
+			(1,
+			'Heath Ledger'))
+
+
+
+		conn.commit()
+
+		conn.close()
+	except Exception as e:
+		print(e)
+
+def mainInsert():
+	try:
+		conn = sqlite3.connect("databases/film.db")
+		c = conn.cursor()
+		c.execute("PRAGMA foreign_keys = ON;")
+
+
+
+		c.execute("INSERT INTO glumci VALUES (?,?)", 
+			(4,
+			'Tom Hanks'))
+
+
+
+		conn.commit()
+
+		conn.close()
+	except Exception as e:
+		print(e)
+
+def mainRatings():
+	try:
+		conn = sqlite3.connect("databases/film.db")
+		c = conn.cursor()
+		c.execute("PRAGMA foreign_keys = ON;")
+		c.execute('''DROP TABLE if exists ocene''')
+		c.execute('''CREATE TABLE ocene (
+			film_id INTEGER,
+			user_email TEXT,
+			rating INTEGER,
+		    FOREIGN KEY (film_id) 
+		    REFERENCES film (filmid) 
+		    ON DELETE CASCADE,
+		    FOREIGN KEY (user_email) 
+		    REFERENCES korisnici (email) 
+		    ON DELETE CASCADE
+			)
+			''')
+
+
+
+		conn.commit()
+
+		conn.close()
+	except Exception as e:
+		print(e)
+
 
 if __name__ == '__main__':
-	main3()
+	mainRatings()

@@ -20,7 +20,7 @@
 
     try {
         $conn = new SQLITE3('databases/film.db');
-        $fetch_string = "SELECT * FROM film where rowid = " . $_GET["filmid"];
+        $fetch_string = "SELECT * FROM film where filmid = " . $_GET["filmid"];
         $fetch_query = $conn->query($fetch_string);
 
         $film = $fetch_query->fetchArray(SQLITE3_ASSOC);
@@ -119,7 +119,7 @@
                     trajanje = '$len',
                     thumbnail = '$thumb'
                 WHERE
-                    rowid = " . $_GET['filmid'];
+                    filmid = " . $_GET['filmid'];
                 
                 $fetch_query = $conn->exec($update_string);
 

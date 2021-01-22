@@ -21,7 +21,7 @@
         <?php
         try {
             $conn = new SQLITE3('databases/film.db');
-            $select_string = "SELECT *, rowid FROM film";
+            $select_string = "SELECT * FROM film";
             $fetch_query = $conn->query($select_string);
 
             while($film = $fetch_query->fetchArray(SQLITE3_ASSOC)){
@@ -30,18 +30,21 @@
                 echo("<img class='img-responsive' style='height:80px;' src='" . $film["thumbnail"] . "'>");
                 echo("</div>");
                 echo("<div class='col-xs-8 col-sm-8 col-md-8 col-lg-8'>");
-                echo("<a href='filmpage.php?filmid=" . $film['rowid'] . "'>" . $film["naslov"] . "</a>");
+                echo("<a href='filmpage.php?filmid=" . $film['filmid'] . "'>" . $film["naslov"] . "</a>");
                 echo("</div>");
                 echo("<div class='col-xs-2 col-sm-2 col-md-2 col-lg-2'>");
                 echo("<b>" . "Ocena" . "</b>");
                 echo("</div>");
                 echo("</div>");
             }
-            
+
+
+            $conn->close();
         }
         catch(PDOException $e) {
             $insert_error = "Error inserting film";
             echo $e->getMessage();
+            $conn->close();
         }
         ?>
         </div>

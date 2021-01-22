@@ -1,13 +1,18 @@
 <?php
-
+session_start();
 try {
     $conn = new SQLITE3('databases/film.db');
-    $delete_string = "DELETE FROM film WHERE rowid = " . $_GET["filmid"];
+    $foreign_string = "PRAGMA foreign_keys = ON;";
     $conn->exec($delete_string);
+    
+    $delete_string = "DELETE FROM film WHERE filmid = " . $_GET["filmid"];
+    $conn->exec($delete_string);
+    $conn->close();
 }
 catch(PDOException $e) {
     $insert_error = "Error inserting film";
-    echo $e->getMessage();
+    $_SESSION['error'] = $e->getMessage();
+    $conn->close();
 }
 
 

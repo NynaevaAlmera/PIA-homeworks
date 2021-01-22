@@ -1,5 +1,5 @@
 <?php 
-if(!isset($_POST["userdict"])){
+if(!isset($_SESSION["userdict"])){
     header("Location: login.php");
 }
 ?>
