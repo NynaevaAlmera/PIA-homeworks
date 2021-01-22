@@ -1,26 +1,46 @@
 import sqlite3
 import urllib.request
 from bs4 import BeautifulSoup
+import re
 
 def scrapePage(pageAddress):
-	req = urllib.request.Request(pageAddress, headers={'User-Agent': 'Mozilla/5.0'})
-	page = urllib.request.urlopen(req)
-	soup = BeautifulSoup(page, 'html.parser')
-
 	filmInfo = dict()
+	try:
+		req = urllib.request.Request(pageAddress, headers={'User-Agent': 'Mozilla/5.0'})
+		page = urllib.request.urlopen(req)
+		soup = BeautifulSoup(page, 'html.parser')
 
-	filmInfo["naslov"] = 'a'
-	print(soup.find(class_='titleBar').find(class_='title_wrapper').find('h1'))
-	filmInfo["opis"] = soup.find(class_='plot_summary_wrapper').find('div').find('div').string.strip()
-	filmInfo["zanr"] = soup.find(class_='subtext').find('a').string
-	filmInfo["scenarista"] = soup.find_all(class_='credit_summary_item')[1].find('a').string
-	filmInfo["reziser"] = soup.find(class_='credit_summary_item').find('a').string
-	filmInfo["producentska_kuca"] = 'Warner Bros.'
-	filmInfo["godina_izdanja"] = soup.find(class_='title_wrapper').find('span').find('a').string
-	filmInfo["trajanje"] =soup.find(class_='subtext').find('time').string.strip()
-	filmInfo["pic"] = soup.find(class_='poster').find('img')['src']
+
+		filmInfo["naslov"] = 'a'
+		filmInfo["opis"] = soup.find(class_='plot_summary_wrapper').find('div').find('div').string.strip()
+		filmInfo["zanr"] = soup.find(class_='subtext').find('a').string
+		filmInfo["scenarista"] = soup.find_all(class_='credit_summary_item')[1].find('a').string
+		filmInfo["reziser"] = soup.find(class_='credit_summary_item').find('a').string
+		filmInfo["producentska_kuca"] = 'Warner Bros.'
+		filmInfo["godina_izdanja"] = soup.find(class_='title_wrapper').find('span').find('a').string
+		filmInfo["trajanje"] =soup.find(class_='subtext').find('time').string.strip()
+		filmInfo["pic"] = soup.find(class_='poster').find('img')['src']
+
+	except Exception as e:
+		print(e)
 
 	return filmInfo
+
+def scrapeList(pageAddress):
+	filmList = list()
+	try:
+		req = urllib.request.Request(pageAddress, headers={'User-Agent': 'Mozilla/5.0'})
+		page = urllib.request.urlopen(req)
+		soup = BeautifulSoup(page, 'html.parser')
+
+		titleTds = soup.find_all(class_="titleColumn")
+		for td in titleTds:
+			filmList.append('https://www.imdb.com' + re.search(r'/title/.*/',td.find('a')["href"]).group())
+
+	except Exception as e:
+		print(e)
+
+	return filmList
 
 def main():
 	base = "https://www.filmfreak.tv/watch/"
@@ -62,23 +82,49 @@ def main():
 		print(e)
 
 def main2():
-	links=['https://www.imdb.com/title/tt0050083/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_5',\
-	'https://www.imdb.com/title/tt0108052/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_6',\
-	'https://www.imdb.com/title/tt0167260/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_7',\
-	'https://www.imdb.com/title/tt0110912/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_8',\
-	'https://www.imdb.com/title/tt0060196/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_9',\
-	'https://www.imdb.com/title/tt0120737/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=JXG7QNRP47JK723EN190&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_10',\
-]
+	conn = sqlite3.connect("databases/film.db")
+	c = conn.cursor()
+	linksPage = 'https://www.imdb.com/chart/top/?ref_=nv_mv_250'
+	links=scrapeList(linksPage)
+
 	for linkAddress in links:
 		try:
 			filmInfo = scrapePage(linkAddress)
 
-			print("INSERT INTO `filmovi`(`naslov`, `opis`, `zanr`, `scenarista`, \
-				`reziser`, `producentska_kuca`, `godina_izdanja`, `trajanje`) VALUES \
-				('"+filmInfo['naslov']+"','"+filmInfo['opis']+"','"+filmInfo['zanr']+"','"+filmInfo['scenarista']+"','"+filmInfo['reziser']+"','"+\
-				filmInfo['producentska_kuca']+"',"+filmInfo['godina_izdanja']+",'"+filmInfo['trajanje']+"')")
+			c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+				VALUES (?,?,?,?,?,?,?,?,?)", 
+				(filmInfo['naslov'],
+				filmInfo['opis'],
+				filmInfo['zanr'],
+				filmInfo['scenarista'],
+				filmInfo['reziser'],
+				filmInfo['producentska_kuca'],
+				filmInfo['godina_izdanja'],
+				filmInfo['trajanje'],
+				filmInfo['pic']))
+
+			print("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+				VALUES ({},{},{},{},{},{},{},{},{})".format
+				(filmInfo['naslov'],
+				filmInfo['opis'],
+				filmInfo['zanr'],
+				filmInfo['scenarista'],
+				filmInfo['reziser'],
+				filmInfo['producentska_kuca'],
+				filmInfo['godina_izdanja'],
+				filmInfo['trajanje'],
+				filmInfo['pic']))
+
 		except:
 			pass
+
+def mainT():
+	conn = sqlite3.connect("databases/film.db")
+	c = conn.cursor()
+
+	
+	c.execute()
+		
 
 def main3():
 		conn = sqlite3.connect("databases/film.db")
@@ -215,4 +261,4 @@ def main20():
 
 
 if __name__ == '__main__':
-	main20()
+	main2()

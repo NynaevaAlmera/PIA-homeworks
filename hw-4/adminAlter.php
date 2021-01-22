@@ -13,10 +13,9 @@
 <body>
 <?php 
     session_start();
-    /*include 'loggedincheck.php';
-    if($_POST["userdict"]["admin"] == 0){
+    if(!$_SESSION["userdict"]["admin"]){
         header("Location: login.php");
-    }*/
+    }
 
     try {
         $conn = new SQLITE3('databases/film.db');
@@ -127,7 +126,7 @@
 
                     $conn->close();
 
-                    header("Location: filmlist.php");
+                    header("Location: filmsearch.php");
                 }
                 else{
                     $update_error = "Error updating film";
@@ -196,7 +195,7 @@
                     <button type="submit">Update</button>
                 </div>
                 <hr>
-                <p class="text-center"><a href="filmlist.php">Films list</a></p>
+                <p class="text-center"><a href="filmsearch.php">Films list</a></p>
             </div>
         </form>
     </div>

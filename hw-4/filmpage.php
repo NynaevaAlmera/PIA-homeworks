@@ -9,7 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <?php //include 'loggedincheck.php';?>
+    <?php session_start();?>
+    <?php include 'loggedincheck.php';?>
 
     <script>
     function deleteFilm(filmid) {
@@ -18,17 +19,14 @@
             var request = new XMLHttpRequest();
             request.open("GET", "deleteFilm.php?filmid="+filmid, true);
             request.send();   
-            window.location.replace("filmlist.php");    
+            window.location.replace("filmsearch.php");    
         }
     }
     function rated() {
         d = document.getElementById("rating").value;
         var request = new XMLHttpRequest();
         request.open("GET", "changeScore.php?filmid=<?php echo($_GET["filmid"]);?>&email=<?php 
-        //echo($_SESSION["userdict"]["email"]);
-        
-        echo("thetwilightenvoy@gmail.com");
-        
+        echo($_SESSION["userdict"]["email"]);
         ?>&rating="+d, true);
         request.send();  
     }
@@ -112,8 +110,13 @@
 
             <br><br>
             
-            <a style="color: black;" href="<?php echo('adminAlter.php?filmid=' . $titles_array['filmid']);?>"><button type="button">Alter Film</button></a>
-            <button type="button" onclick="deleteFilm(<?php echo($titles_array['filmid']);?>)">Delete Film</button>
+            <?php
+            if($_SESSION["userdict"]["admin"]){
+                echo("<a style='color: black;' href=adminAlter.php?filmid=" . $titles_array['filmid'] . "><button type='button'>Alter Film</button></a>
+                <button type='button' onclick='deleteFilm(" . $titles_array['filmid'] . ")'>Delete Film</button>");
+            }
+            ?>
+            
             
             <hr>
             <div class="row content">
@@ -123,7 +126,7 @@
             <hr>
             <p><b>Director: </b><?php echo("<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . $titles_array["reziser"] . "</p>");?></p>
             <p><b>Screenwriter: </b><?php echo("<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . $titles_array["scenarista"] . "</p>");?></p>
-            <p><b>Producent: </b><?php echo("<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . $titles_array["producentska_kuca"] . "</p>");?></p>
+            <p><b>Production Company: </b><?php echo("<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" . $titles_array["producentska_kuca"] . "</p>");?></p>
             <p><b>Actors: </b><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<?php 
             try {
                 $conn = new SQLITE3('databases/film.db');

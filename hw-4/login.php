@@ -58,9 +58,7 @@
                         unset($_POST["usernameOrEmail"]);
                         unset($_POST["pass"]);
 
-                        //var_dump($_SESSION["userdict"]);
-
-                        header("Location: filmlist.php");
+                        header("Location: filmsearch.php");
                     }
                     else{
                         $passError = "Incorrect password";

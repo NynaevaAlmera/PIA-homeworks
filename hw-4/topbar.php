@@ -4,10 +4,11 @@
 
             <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="filmlist.php">
+                <a class="nav-link" href="filmsearch.php">
                     <img src="pics/imdblogo.png" style="height: 20px;">
                 </a>
             </li>
+            <?php if($_SESSION["userdict"]["admin"]) echo('
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-align-justify"></span>  <span style="font-family: Arial, Helvetica, sans-serif;">Administrator</span>
@@ -15,7 +16,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="adminCreate.php">Create film</a class="dropdown-item"></li>
                     </ul>
-                </li>
+                </li>');?>
                 <li class="nav-item">
                     <form class="navbar-form navbar-left" action="filmsearch.php" method="get">
                         <div class="input-group">
@@ -31,7 +32,6 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php
-                session_start();
                 echo('<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout User: ' . $_SESSION['userdict']['username'] . '</a></li>');
                     
                 ?>

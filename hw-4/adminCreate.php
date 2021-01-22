@@ -13,11 +13,10 @@
 <body>
 <?php 
     session_start();
-    /*include 'loggedincheck.php';
     
-    if($_POST["userdict"]["admin"] == 0){
+    if(!$_SESSION["userdict"]["admin"]){
         header("Location: login.php");
-    }*/
+    }
     
     $titleError = $descError = $genreError = $writerError = $dirError = $prodError = $yearError = $lenError = $thumbError = $totalError = $insert_error = "";
     $title = $desc = $genre = $writer = $dir = $prod = $year = $len = $thumb = "";
@@ -98,7 +97,7 @@
             try {
                 $conn = new SQLITE3('databases/film.db');
                 $insert_string = "INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail) VALUES('"
-                        . $title . "','" .  $desc . "','" .  $genre . "','" .  $writer . "','" . $dir . "','" . $prod . "'," . $year . ",'" . $len . "','" . $thumb . "')";
+                        . $title . "',\"" .  $desc . "\",'" .  $genre . "','" .  $writer . "','" . $dir . "','" . $prod . "'," . $year . ",'" . $len . "','" . $thumb . "')";
                 $fetch_query = $conn->exec($insert_string);
 
                 if($fetch_query){
@@ -112,7 +111,7 @@
                     unset($_POST["len"]);
                     unset($_POST["thumb"]);
 
-                    header("Location: filmlist.php");
+                    header("Location: filmsearch.php");
                 }
                 else{
                     $insert_error = "Error inserting film";
@@ -181,7 +180,7 @@
                     <button type="submit">Create</button>
                 </div>
                 <hr>
-                <p class="text-center"><a href="filmlist.php">Films list</a></p>
+                <p class="text-center"><a href="filmsearch.php">Films list</a></p>
             </div>
         </form>
     </div>

@@ -10,7 +10,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<?php //include 'loggedincheck.php';?>
+<?php session_start();?>
+<?php include 'loggedincheck.php';?>
 <?php include 'topbar.php';?>
 <?php
         try {
