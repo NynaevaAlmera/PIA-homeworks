@@ -96,8 +96,8 @@
         if($totalError == ""){
             try {
                 $conn = new SQLITE3('databases/film.db');
-                $insert_string = "INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail) VALUES('"
-                        . $title . "',\"" .  $desc . "\",'" .  $genre . "','" .  $writer . "','" . $dir . "','" . $prod . "'," . $year . ",'" . $len . "','" . $thumb . "')";
+                $insert_string = "INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail) VALUES(\""
+                        . $title . "\",\"" .  $desc . "\",'" .  $genre . "','" .  $writer . "','" . $dir . "','" . $prod . "'," . $year . ",'" . $len . "','" . $thumb . "')";
                 $fetch_query = $conn->exec($insert_string);
 
                 if($fetch_query){
