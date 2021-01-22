@@ -48,6 +48,21 @@
                 $fetch_query = $conn->query($fetch_string);
 
                 $titles_array = $fetch_query->fetchArray(SQLITE3_ASSOC);
+                $fetch_string = "SELECT * FROM ocene where film_id = " . $_GET["filmid"];
+                $fetch_query = $conn->query($fetch_string);
+
+                $numOfRatings = 0;
+                $totalScore = 0;
+                while($next_rating = $fetch_query->fetchArray(SQLITE3_ASSOC)){
+                    $numOfRatings++;
+                    $totalScore += $next_rating["rating"];
+                }
+                if($numOfRatings > 0){
+                    $avgRating = $totalScore / $numOfRatings;
+                }
+                else{
+                    $avgRating = 0;
+                }
                 echo($titles_array["naslov"]);
                 $conn->close();
             }
@@ -59,7 +74,7 @@
 
             ?></h3>
             <h4 style="display: inline-block;"><?php echo("&nbsp(" . $titles_array["godina_izdanja"] . ")");?></h4>
-            <h5><?php echo($titles_array["trajanje"] . " | " . $titles_array["zanr"] . " | rated such and such by this many users");?></h5>
+            <h5><?php echo($titles_array["trajanje"] . " | " . $titles_array["zanr"] . " | Rating <b>" . $avgRating . "/10</b>, from " . $numOfRatings . " users");?></h5>
 
             <?php 
             try {
