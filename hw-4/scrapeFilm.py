@@ -42,54 +42,18 @@ def main():
 			)
 			''')
 
-
-		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
-			VALUES (?,?,?,?,?,?,?,?,?)", 
-			('The Dark Knight',
-			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
-			'action',
-			'j nolan',
-			'c nolan',
-			'wbros',
-			'2008',
-			'2h 32m',
-			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
-
-		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
-			VALUES (?,?,?,?,?,?,?,?,?)", 
-			('The Dark Knight',
-			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
-			'action',
-			'j nolan',
-			'c nolan',
-			'wbros',
-			'2008',
-			'2h 32m',
-			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
-
-		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
-			VALUES (?,?,?,?,?,?,?,?,?)", 
-			('The Dark Knight',
-			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
-			'action',
-			'j nolan',
-			'c nolan',
-			'wbros',
-			'2008',
-			'2h 32m',
-			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
-
-		c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
-			VALUES (?,?,?,?,?,?,?,?,?)", 
-			('The Dark Knight',
-			'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
-			'action',
-			'j nolan',
-			'c nolan',
-			'wbros',
-			'2008',
-			'2h 32m',
-			'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
+		for i in range(20):
+			c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+				VALUES (?,?,?,?,?,?,?,?,?)", 
+				('The Dark Knight',
+				'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
+				'action',
+				'j nolan',
+				'c nolan',
+				'wbros',
+				'2008',
+				'2h 32m',
+				'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
 
 		conn.commit()
 
@@ -224,6 +188,31 @@ def mainRatings():
 	except Exception as e:
 		print(e)
 
+def main20():
+	base = "https://www.filmfreak.tv/watch/"
+	try:
+		conn = sqlite3.connect("databases/film.db")
+		c = conn.cursor()
+
+		for i in range(20):
+			c.execute("INSERT INTO film(naslov,opis,zanr,scenarista,reziser,producentska_kuca,godina_izdanja,trajanje,thumbnail)\
+				VALUES (?,?,?,?,?,?,?,?,?)", 
+				('The Dark Knight',
+				'opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeeeopiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee opiss ide ovdeeeeee',
+				'action',
+				'j nolan',
+				'c nolan',
+				'wbros',
+				'2008',
+				'2h 32m',
+				'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_UX182_CR0,0,182,268_AL_.jpg'))
+
+		conn.commit()
+
+		conn.close()
+	except Exception as e:
+		print(e)
+
 
 if __name__ == '__main__':
-	mainRatings()
+	main20()

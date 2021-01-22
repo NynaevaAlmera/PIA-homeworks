@@ -17,9 +17,9 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <form class="navbar-form navbar-left" action="">
+                    <form class="navbar-form navbar-left" action="filmsearch.php" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input name="searchterm" type="text" class="form-control" placeholder="Search">
                             <div class="input-group-btn">
                                 <button type="submit" class="btn">
                                     <i class="glyphicon glyphicon-search"></i>
