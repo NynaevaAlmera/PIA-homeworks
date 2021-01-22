@@ -24,15 +24,13 @@
     function rated() {
         d = document.getElementById("rating").value;
         var request = new XMLHttpRequest();
-        request.open("GET", "changeScore.php?filmid="+<?php echo($_GET["filmid"]);?>+"&email="+<?php 
+        request.open("GET", "changeScore.php?filmid=<?php echo($_GET["filmid"]);?>&email=<?php 
         //echo($_SESSION["userdict"]["email"]);
         
         echo("thetwilightenvoy@gmail.com");
         
-        ?>
-        +"&rating="+d, true);
+        ?>&rating="+d, true);
         request.send();  
-        alert(d);
     }
     </script>
 </head>
@@ -66,10 +64,11 @@
             <?php 
             try {
                 $conn = new SQLITE3('databases/film.db');
-                $fetch_string = "SELECT * FROM ocene where film_id = " . $_GET["filmid"] . " AND user_email = '" . $_SESSION['userdict']['email'] . "'";
+                $fetch_string = "SELECT * FROM ocene where film_id = " . $_GET["filmid"] . " AND user_email = '" . "thetwilightenvoy@gmail.com" . "'";
                 $fetch_query = $conn->query($fetch_string);
 
                 $ratings_array = $fetch_query->fetchArray(SQLITE3_ASSOC);
+
                 $rating = null;
                 if(!$ratings_array) $rating = null;
                 else $rating = $ratings_array['rating'];
@@ -82,18 +81,18 @@
             }
             ?>
 
-            <select onchange="rated()" id="rating" name="">
-                <option <?php if($rating == 1) echo("selected");?>value="1">1</option>
-                <option <?php if($rating == 2) echo("selected");?>value="2">2</option>
-                <option <?php if($rating == 3) echo("selected");?>value="3">3</option>
-                <option <?php if($rating == 4) echo("selected");?>value="4">4</option>
-                <option <?php if($rating == 5) echo("selected");?>value="5">5</option>
-                <option <?php if($rating == 6) echo("selected");?>value="6">6</option>
-                <option <?php if($rating == 7) echo("selected");?>value="7">7</option>
-                <option <?php if($rating == 8) echo("selected");?>value="8">8</option>
-                <option <?php if($rating == 9) echo("selected");?>value="9">9</option>
-                <option <?php if($rating == 10) echo("selected");?>value="10">10</option>
-                <option <?php if($rating === null) echo("selected");?> value="Unrated">Unrated</option>
+            <b>Your score: </b><select onchange="rated()" id="rating" name="">
+                <option <?php if($rating == 1) echo("selected");?> value="1">1</option>
+                <option <?php if($rating == 2) echo("selected");?> value="2">2</option>
+                <option <?php if($rating == 3) echo("selected");?> value="3">3</option>
+                <option <?php if($rating == 4) echo("selected");?> value="4">4</option>
+                <option <?php if($rating == 5) echo("selected");?> value="5">5</option>
+                <option <?php if($rating == 6) echo("selected");?> value="6">6</option>
+                <option <?php if($rating == 7) echo("selected");?> value="7">7</option>
+                <option <?php if($rating == 8) echo("selected");?> value="8">8</option>
+                <option <?php if($rating == 9) echo("selected");?> value="9">9</option>
+                <option <?php if($rating == 10) echo("selected");?> value="10">10</option>
+                <option <?php if(!$rating) echo("selected");?> value="Unrated">Unrated</option>
             </select>      
 
             <br><br>

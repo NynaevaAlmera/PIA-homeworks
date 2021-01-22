@@ -1,6 +1,8 @@
 <?php
 try {
     $conn = new SQLITE3('databases/film.db');
+    $foreign_string = "PRAGMA foreign_keys = ON;";
+    $conn->exec($foreign_string);
     $fetch_string = "SELECT * FROM ocene where film_id = " . $_GET["filmid"] . " AND user_email = '" . $_GET['email'] . "'";
     $fetch_query = $conn->query($fetch_string);
 

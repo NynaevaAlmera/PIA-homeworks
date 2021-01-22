@@ -25,8 +25,6 @@ try {
     while($res = $fetch_query->fetchArray(SQLITE3_ASSOC)){
         var_dump($res);
     }
-
-    echo("changeScore.php?filmid=1&email=thetwilightenvoy@gmail.com&rating=6");
     
 }
 catch(PDOException $e) {
